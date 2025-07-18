@@ -1,0 +1,77 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Reaction Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Reaction Timer Game</h1>
+<p>Click the box as quickly as you can when it appears.</p>
+
+<div id="box"></div>
+
+<script>
+    var start;
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    function appearBox() {
+        var box = document.getElementById("box");
+
+        // Random size
+        var size = Math.floor(Math.random() * 100) + 50;
+        box.style.width = size + "px";
+        box.style.height = size + "px";
+
+        // Random position
+        var top = Math.floor(Math.random() * (window.innerHeight - size));
+        var left = Math.floor(Math.random() * (window.innerWidth - size));
+        box.style.top = top + "px";
+        box.style.left = left + "px";
+
+        // Random color
+        box.style.backgroundColor = getRandomColor();
+
+        box.style.display = "block";
+        start = new Date().getTime();
+    }
+
+    function appearAfterDelay() {
+        setTimeout(appearBox, Math.random() * 2000 + 1000); // 1 to 3 sec delay
+    }
+
+    document.getElementById("box").onclick = function () {
+        var end = new Date().getTime();
+        var reactionTime = (end - start) / 1000;
+        alert(reactionTime.toFixed(2)); // Only seconds shown
+        this.style.display = "none";
+        appearAfterDelay();
+    };
+
+    appearAfterDelay();
+</script>
+
+</body>
+</html>
